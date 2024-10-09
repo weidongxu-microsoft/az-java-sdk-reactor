@@ -1,5 +1,33 @@
-# Sample project for Azure Java Management SDK on GraalVM
+# Sample project for Azure Java Management SDK with Project Reactor
 
+Set your subscription ID to environment variable `AZURE_SUBSCRIPTION_ID`.
+
+Run
 ```bash
-mvn package -P native
+mvn clean package
+mvn exec:java
+```
+
+Sample log output
+```
+21:01:54.133 [c.a.c.u.l.LoggingEventBuilder] INFO  [ForkJoinPool.commonPool-worker-1] - {"az.sdk.message":"HTTP request","method":"PUT","url":"https://management.azure.com/subscriptions/REDACTED/resourcegroups/rg1-weidxu?api-version=2024-03-01","tryCount":1,"content-length":22}
+21:01:57.775 [c.a.c.u.l.LoggingEventBuilder] INFO  [reactor-http-nio-1] - {"az.sdk.message":"HTTP response","statusCode":201,"url":"https://management.azure.com/subscriptions/REDACTED/resourcegroups/rg1-weidxu?api-version=2024-03-01","durationMs":3653,"content-length":218,"content-length":218}
+21:01:58.188 [c.a.c.u.l.LoggingEventBuilder] INFO  [parallel-3] - {"az.sdk.message":"HTTP request","method":"PUT","url":"https://management.azure.com/subscriptions/REDACTED/resourceGroups/rg1-weidxu/providers/Microsoft.Network/virtualNetworks/net31f203588a5d?api-version=2024-03-01","tryCount":1,"content-length":352}
+21:02:00.641 [c.a.c.u.l.LoggingEventBuilder] INFO  [reactor-http-nio-1] - {"az.sdk.message":"HTTP response","statusCode":201,"url":"https://management.azure.com/subscriptions/REDACTED/resourceGroups/rg1-weidxu/providers/Microsoft.Network/virtualNetworks/net31f203588a5d?api-version=2024-03-01","durationMs":2452,"content-length":1674,"content-length":1674}
+21:02:03.932 [c.a.c.u.l.LoggingEventBuilder] INFO  [parallel-4] - {"az.sdk.message":"HTTP request","method":"GET","url":"https://management.azure.com/subscriptions/REDACTED/providers/Microsoft.Network/locations/westus3/operations/e1e21a01-f5b3-4170-b10a-9075883e819b?api-version=2024-03-01&t=REDACTED&c=REDACTED&s=REDACTED&h=REDACTED","tryCount":1}
+21:02:04.293 [c.a.c.u.l.LoggingEventBuilder] INFO  [reactor-http-nio-1] - {"az.sdk.message":"HTTP response","statusCode":200,"url":"https://management.azure.com/subscriptions/REDACTED/providers/Microsoft.Network/locations/westus3/operations/e1e21a01-f5b3-4170-b10a-9075883e819b?api-version=2024-03-01&t=REDACTED&c=REDACTED&s=REDACTED&h=REDACTED","durationMs":498,"content-length":22,"content-length":22}
+21:02:04.304 [c.a.c.u.l.LoggingEventBuilder] INFO  [reactor-http-nio-1] - {"az.sdk.message":"HTTP request","method":"GET","url":"https://management.azure.com/subscriptions/REDACTED/resourceGroups/rg1-weidxu/providers/Microsoft.Network/virtualNetworks/net31f203588a5d?api-version=2024-03-01","tryCount":1}
+21:02:05.699 [c.a.c.u.l.LoggingEventBuilder] INFO  [reactor-http-nio-1] - {"az.sdk.message":"HTTP response","statusCode":200,"url":"https://management.azure.com/subscriptions/REDACTED/resourceGroups/rg1-weidxu/providers/Microsoft.Network/virtualNetworks/net31f203588a5d?api-version=2024-03-01","durationMs":1395,"content-length":1676,"content-length":1676}
+21:02:05.713 [c.a.c.u.l.LoggingEventBuilder] INFO  [reactor-http-nio-1] - {"az.sdk.message":"HTTP request","method":"PUT","url":"https://management.azure.com/subscriptions/REDACTED/resourceGroups/rg1-weidxu/providers/Microsoft.ContainerInstance/containerGroups/container1-weidxu?api-version=2023-05-01","tryCount":1,"content-length":496}
+21:02:10.890 [c.a.c.u.l.LoggingEventBuilder] INFO  [reactor-http-nio-1] - {"az.sdk.message":"HTTP response","statusCode":201,"url":"https://management.azure.com/subscriptions/REDACTED/resourceGroups/rg1-weidxu/providers/Microsoft.ContainerInstance/containerGroups/container1-weidxu?api-version=2023-05-01","durationMs":5177,"content-length":941,"content-length":941}
+21:02:40.900 [c.a.c.u.l.LoggingEventBuilder] INFO  [parallel-5] - {"az.sdk.message":"HTTP request","method":"GET","url":"https://management.azure.com/subscriptions/REDACTED/providers/Microsoft.ContainerInstance/locations/westus3/operations/4337aed5-140e-4daf-b22f-911ed8028a63?api-version=2018-06-01&t=REDACTED&c=REDACTED&s=REDACTED&h=REDACTED","tryCount":1}
+21:02:41.186 [c.a.c.u.l.LoggingEventBuilder] INFO  [reactor-http-nio-1] - {"az.sdk.message":"HTTP response","statusCode":200,"url":"https://management.azure.com/subscriptions/REDACTED/providers/Microsoft.ContainerInstance/locations/westus3/operations/4337aed5-140e-4daf-b22f-911ed8028a63?api-version=2018-06-01&t=REDACTED&c=REDACTED&s=REDACTED&h=REDACTED","durationMs":284,"content-length":247,"content-length":247}
+21:03:11.206 [c.a.c.u.l.LoggingEventBuilder] INFO  [parallel-6] - {"az.sdk.message":"HTTP request","method":"GET","url":"https://management.azure.com/subscriptions/REDACTED/providers/Microsoft.ContainerInstance/locations/westus3/operations/4337aed5-140e-4daf-b22f-911ed8028a63?api-version=2018-06-01&t=REDACTED&c=REDACTED&s=REDACTED&h=REDACTED","tryCount":1}
+21:03:12.909 [c.a.c.u.l.LoggingEventBuilder] INFO  [reactor-http-nio-1] - {"az.sdk.message":"HTTP response","statusCode":200,"url":"https://management.azure.com/subscriptions/REDACTED/providers/Microsoft.ContainerInstance/locations/westus3/operations/4337aed5-140e-4daf-b22f-911ed8028a63?api-version=2018-06-01&t=REDACTED&c=REDACTED&s=REDACTED&h=REDACTED","durationMs":1707,"content-length":247,"content-length":247}
+21:03:42.918 [c.a.c.u.l.LoggingEventBuilder] INFO  [parallel-7] - {"az.sdk.message":"HTTP request","method":"GET","url":"https://management.azure.com/subscriptions/REDACTED/providers/Microsoft.ContainerInstance/locations/westus3/operations/4337aed5-140e-4daf-b22f-911ed8028a63?api-version=2018-06-01&t=REDACTED&c=REDACTED&s=REDACTED&h=REDACTED","tryCount":1}
+21:03:43.211 [c.a.c.u.l.LoggingEventBuilder] INFO  [reactor-http-nio-1] - {"az.sdk.message":"HTTP response","statusCode":200,"url":"https://management.azure.com/subscriptions/REDACTED/providers/Microsoft.ContainerInstance/locations/westus3/operations/4337aed5-140e-4daf-b22f-911ed8028a63?api-version=2018-06-01&t=REDACTED&c=REDACTED&s=REDACTED&h=REDACTED","durationMs":293,"content-length":723,"content-length":723}
+21:03:43.211 [c.a.c.u.l.LoggingEventBuilder] INFO  [reactor-http-nio-1] - {"az.sdk.message":"HTTP request","method":"GET","url":"https://management.azure.com/subscriptions/REDACTED/resourceGroups/rg1-weidxu/providers/Microsoft.ContainerInstance/containerGroups/container1-weidxu?api-version=2023-05-01","tryCount":1}
+21:03:44.274 [c.a.c.u.l.LoggingEventBuilder] INFO  [reactor-http-nio-1] - {"az.sdk.message":"HTTP response","statusCode":200,"url":"https://management.azure.com/subscriptions/REDACTED/resourceGroups/rg1-weidxu/providers/Microsoft.ContainerInstance/containerGroups/container1-weidxu?api-version=2023-05-01","durationMs":1056,"content-length":1795,"content-length":1795}
+21:03:44.274 [c.a.c.u.l.LoggingEventBuilder] INFO  [reactor-http-nio-1] - {"az.sdk.message":"resource created, name: container1-weidxu"}
+21:03:44.274 [c.a.c.u.l.LoggingEventBuilder] INFO  [reactor-http-nio-1] - {"az.sdk.message":"completed"}
 ```
